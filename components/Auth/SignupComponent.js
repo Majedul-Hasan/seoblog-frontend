@@ -1,20 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
+import { signupAction } from "../../actions/authAction";
 
 
 
 const SignupComponent = () => {
+  const [values, setValues] = useState({
+    name: 'Majedul Hasan',
+    password: '123456',
+    email: 'hasanmajedul@gmail.com',
+    error: '',
+    loading:false,
+    message:'',
+    showForm:true
+
+  })
+
+  const {
+    name,
+    password,
+    email,
+    error,
+    loading,
+    message,
+    showForm } = values
+
+
 
   const handleSubmit =(e)=>{
     e.preventDefault()
-    console.log('sublitted');
+    /*
+    console.table({name,
+    password,
+    email,
+    error,
+    loading,
+    message,
+    showForm})*/
+    setValues({...values, loading: true, error: false})
+
+    const user = {name, email, password} 
+
+    signupAction(user)
+    .then(data=>{
+      if(data.error){
+         setValues({...values, error: data.error, loading: false})
+      }else{
+        setValues({
+                    ...values,
+                    name: '',
+                    email: '',
+                    password: '',
+                    error: '',
+                    loading: false,
+                    message: data.message,
+                    showForm: false
+                });
+      }
+    })
+      
+
   }
 
-  const handleChange =(e)=>{   
+  const handleChange = name => (e)=>{   
 
     console.log(e.target.value);
+    setValues({...values, error: false, [name]: e.target.value })
   }
 
-
+    const showLoading = () => (loading ? <div className="alert alert-info">Loading...</div> : '');
+    const showError = () => (error ? <div className="alert alert-danger">{error}</div> : '');
+    const showMessage = () => (message ? <div className="alert alert-info">{message}</div> : '');
 
 
 
@@ -22,14 +77,14 @@ const SignupComponent = () => {
     return (
       <form onSubmit={handleSubmit}>
         <div className="form-group">        
-          <input onChange={handleChange} type="text" className="form-control" placeholder="Type your name" />        
+          <input value={name} onChange={handleChange('name')} type="text" className="form-control" placeholder="Type your name" />        
         </div>
 
         <div className="form-group">        
-          <input onChange={handleChange} type="email" className="form-control" placeholder="Type your email" />        
+          <input value={email} onChange={handleChange('email')} type="email" className="form-control" placeholder="Type your email" />        
         </div>
         <div className="form-group">        
-          <input onChange={handleChange} type="password" className="form-control" placeholder="Type your password" />        
+          <input value={password} onChange={handleChange('password')} type="password" className="form-control" placeholder="Type your password" />        
         </div>
         <div >        
           <button className="btn btn-primary">signup</button>        
@@ -50,8 +105,11 @@ const SignupComponent = () => {
 
   return (
     <React.Fragment>
+    {showError()}
+    {showLoading()}
+    {showMessage()}
     
-    {signupForm()}
+    {showForm && signupForm()}
     </React.Fragment>
     
 
