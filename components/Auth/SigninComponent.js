@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { signupAction, isAuth } from "../../actions/authAction";
-
+import { isAuth, signinAction, authenticate } from "../../actions/authAction";
 import Router from 'next/router'
 
 
 
-const SignupComponent = () => {
+
+
+
+const SigninComponent = () => {
   const [values, setValues] = useState({
-    name: 'Majedul Hasan',
+    
     password: '123456',
     email: 'hasanmajedul@gmail.com',
     error: '',
@@ -18,7 +20,7 @@ const SignupComponent = () => {
   })
 
   const {
-    name,
+   
     password,
     email,
     error,
@@ -45,14 +47,15 @@ const SignupComponent = () => {
     showForm})*/
     setValues({...values, loading: true, error: false})
 
-    const user = {name, email, password} 
+    const user = { email, password} 
 
-    signupAction(user)
+    signinAction(user)
     .then(data=>{
       if(data.error){
          setValues({...values, error: data.error, loading: false})
       }else{
-        setValues({
+         /*
+                setValues({
                     ...values,
                     name: '',
                     email: '',
@@ -62,6 +65,23 @@ const SignupComponent = () => {
                     message: data.message,
                     showForm: false
                 });
+                */
+
+                //****** target ****** */
+
+
+                // save user token to the cookie
+
+                // save user info to the localStorage
+                // authenticate user
+                authenticate(data, ()=>{
+                                   
+                    Router.push('/')
+                })
+
+
+
+               
       }
     })
       
@@ -83,9 +103,7 @@ const SignupComponent = () => {
   const signupForm =()=>{
     return (
       <form onSubmit={handleSubmit}>
-        <div className="form-group">        
-          <input value={name} onChange={handleChange('name')} type="text" className="form-control" placeholder="Type your name" />        
-        </div>
+        
 
         <div className="form-group">        
           <input value={email} onChange={handleChange('email')} type="email" className="form-control" placeholder="Type your email" />        
@@ -94,7 +112,7 @@ const SignupComponent = () => {
           <input value={password} onChange={handleChange('password')} type="password" className="form-control" placeholder="Type your password" />        
         </div>
         <div >        
-          <button className="btn btn-primary">signup</button>        
+          <button className="btn btn-primary">signin</button>        
         </div>
 
 
@@ -125,4 +143,4 @@ const SignupComponent = () => {
   )
 };
 
-export default SignupComponent;
+export default SigninComponent;

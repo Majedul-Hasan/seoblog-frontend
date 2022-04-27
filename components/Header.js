@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 import { APP_NAME } from '../config';
 import Link from 'next/link';
+import { isAuth } from '../actions/authAction';
 
 
 
@@ -24,6 +25,8 @@ import Link from 'next/link';
 
 
 const Header = ()=>{
+  console.log(isAuth);
+  
 
 
   
@@ -42,20 +45,30 @@ const Header = ()=>{
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem>
+
+            {
+              !isAuth && <React.Fragment>
+                <NavItem>
+                  <Link  href="/signin"><NavLink>signin</NavLink></Link>
+                </NavItem>
+                
+                <NavItem>
+                  <Link  href="/signup"><NavLink>signup</NavLink></Link>
+                </NavItem>
               
+              </React.Fragment>
+            }
+            {
+              isAuth && <React.Fragment>
+                <NavItem>
+                  <Link  href="/signout"><NavLink>signout</NavLink></Link>
+                </NavItem>
+                
+                
+              
+              </React.Fragment>
+            }
             
-              <Link  href="/signin"><NavLink>signin</NavLink></Link>
-
-              
-            </NavItem>
-            <NavItem>
-              
-              <Link  href="/signup"><NavLink>signup</NavLink></Link>
-              
-
-              
-            </NavItem>
             <NavItem>
               <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
             </NavItem>

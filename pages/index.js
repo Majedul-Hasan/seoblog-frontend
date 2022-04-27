@@ -5,9 +5,11 @@ import Link from 'next/link';
 const index = () => {
   return (
       <Layout>
-      <h2>Index page</h2>
+        <h2>Index page</h2>
 
-      <Link href="/signup"><a>signup</a></Link>
+        <Link href="/signup"><a>signup</a></Link>
+        {/*<Link href="/signin"><a>signin</a></Link>*/}
+
       
       </Layout>
   )
