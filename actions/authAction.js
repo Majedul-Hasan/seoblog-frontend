@@ -31,6 +31,7 @@ export const signinAction = (user)=>{
         body: JSON.stringify(user)
     })
     .then(response =>{
+               
         return response.json()
     } )
     .catch(err =>console.log(err))
@@ -56,7 +57,7 @@ export const signoutAction = (user)=>{
 // set cookie 
 
 export const setCookie = (key, value)=>{
-    if(process.browser){
+    if(typeof window !== 'undefined'){
         cookie.set(key, value, {
             expires: 1              // 1 day
         })
@@ -65,7 +66,7 @@ export const setCookie = (key, value)=>{
 
 
 export const removeCookie = (key)=>{
-    if(process.browser){
+    if(typeof window !== 'undefined'){
         cookie.remove(key, {
             expires: 1              // 1 day
         })
@@ -74,9 +75,9 @@ export const removeCookie = (key)=>{
 
 // get cookie 
 
-export const getCookie = (key)=>{
-    if(process.browser){
-        cookie.get(key)
+export const getCookie = key =>{
+    if(typeof window !== 'undefined' ){
+        return cookie?.get(key)
     }
 }
 
@@ -85,9 +86,9 @@ export const getCookie = (key)=>{
 
 
 export const setLocalStorage = (key, value) => {
-    if (process.browser) {    
+    if (typeof window !== 'undefined') {    
         
-        localStorage.setItem(key, JSON.stringify(value));
+       return localStorage.setItem(key, JSON.stringify(value));
     }
 };
 
@@ -95,8 +96,8 @@ export const setLocalStorage = (key, value) => {
 // remove localstorage
 
 export const removelocalStorage = (key, value)=>{
-    if(process.browser){
-       localStorage.removeItem(key)
+    if(typeof window !== 'undefined'){
+     return  localStorage.removeItem(key)
     }
 }
 
@@ -112,17 +113,46 @@ export const authenticate = (data, next)=>{
 }
 
 //
+/*
 
-export const isAuth = () =>{
-    if(process.browser){
-        const cookieChecked = getCookie('token')
-        if(cookieChecked){
-            if(localStorage.getItem('user')){
-                return JSON.parse(localStorage.getItem('user'))
+export const isAuth = () => {
+    if (process.browser) {
+        const cookieChecked = getCookie('token');
+        console.log(cookieChecked);
+           
+        
+        if (cookieChecked) {
+            if (localStorage.getItem('user')) {
+                console.log(JSON.parse(localStorage.getItem('user')));
+                
+                return JSON.parse(localStorage.getItem('user'));
             } else {
-                return false
+                return false;
             }
         }
-
     }
-}
+};
+*/
+
+export const isAuth = () => {
+    if (typeof window !== 'undefined') {
+         const cookieChecked = getCookie('token');
+        
+        
+        
+
+        if (cookieChecked) {
+            if (localStorage.getItem('user')) {
+                console.log('if statment');
+                
+                return JSON.parse(localStorage.getItem('user'));
+            } else {
+                console.log('else statment');
+
+                return false;
+            }
+        }
+    }
+    
+    
+};

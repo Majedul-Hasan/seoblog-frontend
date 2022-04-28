@@ -25,12 +25,6 @@ import { isAuth } from '../actions/authAction';
 
 
 const Header = ()=>{
-  console.log(isAuth);
-  
-
-
-  
-
      const [isOpen, setIsOpen] = useState(false);
 
      const toggle =()=>{
@@ -47,7 +41,7 @@ const Header = ()=>{
           <Nav className="ml-auto" navbar>
 
             {
-              !isAuth && <React.Fragment>
+              !isAuth() && <React.Fragment>
                 <NavItem>
                   <Link  href="/signin"><NavLink>signin</NavLink></Link>
                 </NavItem>
@@ -59,7 +53,7 @@ const Header = ()=>{
               </React.Fragment>
             }
             {
-              isAuth && <React.Fragment>
+              isAuth() && <React.Fragment>
                 <NavItem>
                   <Link  href="/signout"><NavLink>signout</NavLink></Link>
                 </NavItem>

@@ -27,9 +27,9 @@ const SignupComponent = () => {
     showForm } = values
 
     useEffect(()=>{
-      isAuth && Router.push(`/`)
+      isAuth() && Router.push(`/signin`)
 
-    },[])
+    },[isAuth])
 
 
 

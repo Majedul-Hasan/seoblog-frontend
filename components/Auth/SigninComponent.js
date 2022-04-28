@@ -8,6 +8,9 @@ import Router from 'next/router'
 
 
 const SigninComponent = () => {
+
+
+
   const [values, setValues] = useState({
     
     password: '123456',
@@ -28,10 +31,7 @@ const SigninComponent = () => {
     message,
     showForm } = values
 
-    useEffect(()=>{
-      isAuth && Router.push(`/`)
-
-    },[])
+     
 
 
 
@@ -48,6 +48,8 @@ const SigninComponent = () => {
     setValues({...values, loading: true, error: false})
 
     const user = { email, password} 
+
+    
 
     signinAction(user)
     .then(data=>{
@@ -75,8 +77,18 @@ const SigninComponent = () => {
                 // save user info to the localStorage
                 // authenticate user
                 authenticate(data, ()=>{
+                  //console.log(data);
+
+                  if(isAuth() && isAuth().role === 1 ){
+                    Router.push('/admin')
+                  } else{
+                    Router.push('/user')
+
+                  }
+
+
                                    
-                    Router.push('/')
+                    
                 })
 
 
@@ -88,9 +100,11 @@ const SigninComponent = () => {
 
   }
 
+  
+
   const handleChange = name => (e)=>{   
 
-    console.log(e.target.value);
+    //console.log(e.target.value);
     setValues({...values, error: false, [name]: e.target.value })
   }
 
