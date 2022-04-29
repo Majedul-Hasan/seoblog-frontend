@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 import { APP_NAME } from '../config';
 import Link from 'next/link';
-import { isAuth } from '../actions/authAction';
+import { isAuth, signoutAction } from '../actions/authAction';
 
 
 
@@ -55,7 +55,7 @@ const Header = ()=>{
             {
               isAuth() && <React.Fragment>
                 <NavItem>
-                  <Link  href="/signout"><NavLink>signout</NavLink></Link>
+                  <NavLink style={{ cursor: 'pointer' }} onClick={() => signoutAction(() => Router.replace(`/signin`))} >signout</NavLink>
                 </NavItem>
                 
                 

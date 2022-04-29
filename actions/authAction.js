@@ -38,10 +38,15 @@ export const signinAction = (user)=>{
 }
 
 
+/*
+export const signoutAction = (next)=>{
+    removeCookie('token');
+    removeLocalStorage('user');
+    next();
 
-export const signoutAction = (user)=>{
+
     return fetch(`${API}/auth/signout`, {
-        method : 'POST',
+        method : 'GET',
         headers:{
             Accept : 'Application/json',
             'Content-Type': 'Application/json',
@@ -49,10 +54,31 @@ export const signoutAction = (user)=>{
         body: JSON.stringify(user)
     })
     .then(response =>{
-        return response.json()
+        console.log('sign out success');
+        
     } )
     .catch(err =>console.log(err))
 }
+*/
+
+
+export const signoutAction = next => {
+    removeCookie('token');
+    removelocalStorage('user');
+    //next();
+
+    return fetch(`${API}/auth/signout`, {
+        method: 'GET'
+    })
+        .then(response => {
+            console.log('signout success');
+        })
+        .catch(err => console.log(err));
+};
+
+
+
+
 
 // set cookie 
 
@@ -95,7 +121,7 @@ export const setLocalStorage = (key, value) => {
 
 // remove localstorage
 
-export const removelocalStorage = (key, value)=>{
+export const removelocalStorage = (key)=>{
     if(typeof window !== 'undefined'){
      return  localStorage.removeItem(key)
     }
@@ -156,3 +182,6 @@ export const isAuth = () => {
     
     
 };
+
+
+
