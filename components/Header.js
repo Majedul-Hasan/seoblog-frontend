@@ -17,6 +17,8 @@ import { APP_NAME } from '../config';
 import Link from 'next/link';
 import { isAuth, signoutAction } from '../actions/authAction';
 
+import Router from 'next/router';
+
 
 
 

@@ -63,9 +63,9 @@ export const signoutAction = (next)=>{
 
 
 export const signoutAction = next => {
-    removeCookie('token');
+       removeCookie('token');
     removelocalStorage('user');
-    //next();
+    next();
 
     return fetch(`${API}/auth/signout`, {
         method: 'GET'
@@ -74,6 +74,8 @@ export const signoutAction = next => {
             console.log('signout success');
         })
         .catch(err => console.log(err));
+
+     
 };
 
 
@@ -169,11 +171,11 @@ export const isAuth = () => {
 
         if (cookieChecked) {
             if (localStorage.getItem('user')) {
-                console.log('if statment');
+                //console.log('if statment');
                 
                 return JSON.parse(localStorage.getItem('user'));
             } else {
-                console.log('else statment');
+                //console.log('else statment');
 
                 return false;
             }
